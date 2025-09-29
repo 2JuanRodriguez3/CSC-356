@@ -1,0 +1,60 @@
+/* Juan Rodriguez September 28th, 2025 */
+body {
+  font-family: Arial, sans-serif; 
+  background: #111;              /* Dark background for "space" theme */
+  color: #eee;                   /* Light text for contrast */
+  margin: 0;
+  height: 100vh;                 
+  display: flex;                 
+  justify-content: center;       
+  align-items: center;          
+  flex-direction: column;        
+}
+
+/* Page title */
+h1 {
+  color: #ff4c29;               
+  margin-bottom: 20px;
+}
+
+/* Form container */
+form {
+  background: #222;         
+  padding: 20px;
+  border-radius: 10px;        
+  width: 400px;                 
+  box-shadow: 0 0 10px rgba(255, 76, 41, 0.6); /* This is a red Glow effect */
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+/* Input fields, dropdowns, and text area */
+input, select, textarea {
+  width: 100%;                  
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 5px;            
+  border: none;                 
+}
+
+/* the submit button */
+button {
+  margin-top: 15px;
+  padding: 10px;
+  background: #ff4c29;           /* Bright orange */
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;                  
+}
+
+/* Hover effect for the button */
+button:hover {
+  background: #e43d20;           /* Darker orange when hovered */
+}
