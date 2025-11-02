@@ -35,6 +35,7 @@ if ($daysLeft <= 0) {
             <li><a href="MarsHome.php">Home</a></li>
             <li><a href="MarsTimer.php">Mars Trip Clock</a></li>
             <li><a href="MarsContact.php">Contact</a></li>
+            <li><a href="MarsLogin.php" class="active">Login</a></li> <!--The new login page -->
         </ul>
     </nav>
 
