@@ -1,120 +1,79 @@
-<!-- Juan Rodriguez, November 1st, 2025 -->
+<?php
+// Show all errors for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Start session
+session_start();
+
+// Include database connection
+require_once("db_connection.php");
+
+// Default error message
+$errorMessage = "";
+
+// Check if form submitted
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    // Get user input
+    $username = trim($_POST['userid']);
+    $password = trim($_POST['password']);
+
+    // Simple check to ensure fields are not empty
+    if ($username == "" || $password == "") {
+        $errorMessage = "Please enter both UserID and Password.";
+    } else {
+        // Query the database for this user
+        $sql = "SELECT * FROM mslogin WHERE username = ? AND password = ?";
+        $stmt = $db_conn->prepare($sql);
+        $stmt->bind_param("ss", $username, $password);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+
+        if ($user) {
+            // Credentials correct, start session
+            $_SESSION['id'] = session_id();
+            $_SESSION['isLoggedIn'] = 'true';
+            $_SESSION['UserName'] = $user['UserName'];
+
+            // Redirect to intranet
+            header('Location: admin.php');
+            exit();
+        } else {
+            $errorMessage = "Invalid UserID or Password.";
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Mars Tourism Login</title>
-    <link rel="stylesheet" href="MarsCSS.css"> 
-    <style>
-    /* Inline styles for this file */
-        .login-container {
-            max-width: 350px;
-            margin: 60px auto;
-            padding: 30px;
-            background-color: #222;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            color: #fff;
-        }
-
-        .login-container h2 {
-            text-align: center;
-            color: #ffcc33;
-        }
-
-        .login-container label {
-            display: block;
-            margin-top: 15px;
-            font-weight: bold;
-        }
-
-        .login-container input {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            margin-top: 5px;
-        }
-
-        .login-container input[type="submit"] {
-            background-color: #ffcc33;
-            color: #1e2950;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        .login-container input[type="submit"]:hover {
-            background-color: #ffe066;
-        }
-
-        .error {
-            color: #ff6666;
-            font-size: 13px;
-            margin-top: 5px;
-        }
-
-        body {
-            background: linear-gradient(to bottom right, #0b0f29, #1e2950);
-            font-family: 'Poppins', sans-serif;
-        }
-    </style>
-
-    <script>
-        // this is where the javascript makes sure that the userid and password are entered
-        function validateLoginForm() {
-            const userid = document.getElementById('userid').value.trim();
-            const password = document.getElementById('password').value.trim();
-            let valid = true;
-
-            document.getElementById('userError').textContent = "";
-            document.getElementById('passError').textContent = "";
-
-            if (userid === "") {
-                document.getElementById('userError').textContent = "Please enter your User ID.";
-                valid = false;
-            }
-
-            if (password === "") {
-                document.getElementById('passError').textContent = "Please enter your Password.";
-                valid = false;
-            }
-
-            return valid;
-        }
-    </script>
+<meta charset="UTF-8">
+<title>Mars Tourism Login</title>
+<link rel="stylesheet" href="MarsCSS.css"> <!-- Link shared CSS -->
 </head>
 <body>
-
-    <!-- this is the navagation at the top of the page-->
+        <!--Top Navigation of the page-->
     <nav>
         <ul>
             <li><a href="MarsHome.php">Home</a></li>
             <li><a href="MarsTimer.php">Mars Trip Clock</a></li>
             <li><a href="MarsContact.php">Contact</a></li>
-            <li><a href="MarsLogin.php" class="active">Login</a></li> <!--The new login page -->
+            <li><a href="MarsLogin.php">Login</a></li> 
         </ul>
     </nav>
 
-    <!-- the new login section -->
-    <div class="login-container">
-        <h2>Login to Mars Tourism Agency</h2>
-        <form action="ProcessMarsLogin.php" method="POST" onsubmit="return validateLoginForm();">
-            <label for="userid">User ID:</label>
-            <input type="text" id="userid" name="userid" placeholder="Enter your User ID">
-            <div id="userError" class="error"></div>
-
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="Enter your Password">
-            <div id="passError" class="error"></div>
-
-            <input type="submit" value="Login">
-        </form>
-    </div>
-
-    <footer>
-        <p>&copy; 2025 Mars Tourism Exploration.CO</p>
-    </footer>
+<div class="login-container">
+    <h2>Login to Mars Tourism Agency</h2>
+    <?php if($errorMessage != "") echo "<p class='error'>$errorMessage</p>"; ?>
+    <form method="POST">
+        <input type="text" name="userid" placeholder="User ID" required><br>
+        <input type="password" name="password" placeholder="Password" required><br>
+        <input type="submit" value="Login">
+    </form>
+</div>
 
 </body>
 </html>
