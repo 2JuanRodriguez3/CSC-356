@@ -1,4 +1,37 @@
 <!-- Juan Rodriguez November 29th, 2025 -->
+ <!-- This below is the new XML code that has been added -->
+<?php
+// this is new xml data for the stars below
+$xmlData = <<<XML
+<!-- these are the elements that contain new stars and their information -->
+<stars>
+    <star>
+        <name>Betelgeuse</name>
+        <distance>642.5</distance>
+        <type>Red Supergiant</type>
+    </star>
+    <star>
+        <name>Rigel</name>
+        <distance>860</distance>
+        <type>Blue Supergiant</type>
+    </star>
+    <star>
+        <name>Procyon</name>
+        <distance>11.46</distance>
+        <type>Main Sequence</type>
+    </star>
+    <star>
+        <name>Altair</name>
+        <distance>16.7</distance>
+        <type>Main Sequence</type>
+    </star>
+</stars>
+XML;
+
+// this helps load xml data
+$stars = simplexml_load_string($xmlData);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
